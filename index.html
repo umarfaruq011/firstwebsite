@@ -253,14 +253,15 @@ Creating an emergency fund reserve that is split among four individuals can be a
             <p class="copyright">Sadaqah | ALL RIGHT RESERVED</p>
             <p class="copyright1">This side is protected by Umar Faruq</p>
         </footer>
-        
-        <script type="module" src="script20.js"></script>
-        <!-- Include Firebase Scripts -->
-<script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js"></script>
+<script src="your-script.js"></script>
+
 
 <!-- Your Firebase Configuration -->
 <script>
+    import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
     const firebaseConfig = {
         apiKey: "AIzaSyCKi3owg3WD6FlApyftqLsl0LEadGYM7Yk",
   authDomain: "my-comment-d816f.firebaseapp.com",
@@ -274,7 +275,19 @@ Creating an emergency fund reserve that is split among four individuals can be a
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+
+    import { getDatabase, ref, set } from "firebase/database";
+
+// Reference to your database
+const dbRef = ref(db, 'path/to/your/data');
+
+// Set data in your database
+set(dbRef, {
+  username: "example"
+});
+
 </script>
+            
 
 
        
