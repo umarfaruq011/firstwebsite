@@ -25,7 +25,24 @@ body {
     background: var(--bg-color);
     color: var(--text-color);
 }
-
+#displayMessage {
+    display: flex;
+    font-size: 16px;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    text-align: left; /* Align text to the left */
+    min-height: 200px; /* Minimum height for the section */
+    background-color: #1a1a1a; /* Dark background */
+    color: white; /* White text for contrast */
+    font-family: Arial, sans-serif; /* Font style */
+    padding: 20px; /* Padding inside the section */
+    border-radius: 8px; /* Rounded corners */
+    margin: 20px; /* Space outside the section */
+}
+/* Style for the text inside the section */
+.display-message p {
+    margin: 5px 0; /* Spacing between lines */
+}
 .header {
     position: fixed;
     top: 0;
