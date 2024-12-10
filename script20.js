@@ -42,6 +42,20 @@ menuIcon.onclick = () => {
             `Name: ${contactData.name}\nEmail: ${contactData.email}\nSubject: ${contactData.subject || "No Subject"}\nMessage: ${contactData.message}`;
     }
 };
+const firebaseConfig = {
+  apiKey: "AIzaSyCKi3owg3WD6FlApyftqLsl0LEadGYM7Yk",
+  authDomain: "my-comment-d816f.firebaseapp.com",
+  databaseURL: "https://my-comment-d816f-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "my-comment-d816f",
+  storageBucket: "my-comment-d816f.firebasestorage.app",
+  messagingSenderId: "444552815409",
+  appId: "1:444552815409:web:2955f355d76f296bd88610",
+  measurementId: "G-143RDLHH60"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 // Save data and display it
 window.onclick = function (e) {
