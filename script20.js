@@ -1,6 +1,4 @@
-
-
-
+// Get menu icon and navbar elements
 let menuIcon = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
 let sections = document.querySelectorAll('section');
@@ -28,10 +26,13 @@ menuIcon.onclick = () => {
     menuIcon.classList.toggle('bx-x');
     navbar.classList.toggle('active');
 };
+
+// Firebase initialization
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.x.x/firebase-analytics.js";
 
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCKi3owg3WD6FlApyftqLsl0LEadGYM7Yk",
   authDomain: "my-comment-d816f.firebaseapp.com",
@@ -45,8 +46,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getDatabase(app); // Initialize the database
 const analytics = getAnalytics(app);
-
 
 // Write data to Firebase
 function writeUserData(userId, name, email) {
@@ -56,9 +57,8 @@ function writeUserData(userId, name, email) {
     });
 }
 
-
- // Load stored data when the page loads
- window.onload = function () {
+// Load stored data when the page loads
+window.onload = function () {
     if (localStorage.getItem('contactData')) {
         const contactData = JSON.parse(localStorage.getItem('contactData'));
         document.getElementById('fullName').value = contactData.name || '';
@@ -70,29 +70,38 @@ function writeUserData(userId, name, email) {
     }
 };
 
-
 // Save data and display it
-window.onclick = function (e) {
-    var id = e.target.id;
-    if (id === 'submit') {
-        // Get form values
-        var name = document.getElementById('fullName').value.trim();
-        var email = document.getElementById('email').value.trim();
-        var subject = document.getElementById('subject').value.trim();
-        var message = document.getElementById('message').value.trim();
+document.getElementById('submit').addEventListener('click', function (e) {
+    // Prevent form submission
+    e.preventDefault();
 
-        // Validate required fields
-        if (!name || !email || !message) {
-            document.getElementById('displayMessage').innerText = 'Please fill all required fields (Name, Email, and Message) in English.';
-            return;
-        }
+    // Get form values
+    var name = document.getElementById('fullName').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var subject = document.getElementById('subject').value.trim();
+    var message = document.getElementById('message').value.trim();
 
-        // Save data to localStorage
-        const contactData = { name, email, subject, message };
-        localStorage.setItem('contactData', JSON.stringify(contactData));
-
-        // Display the results
-        document.getElementById('displayMessage').innerText = 
-            `Name: ${name}\nEmail: ${email}\nSubject: ${subject || "No Subject"}\nMessage: ${message}`;
+    // Validate required fields
+    if (!name || !email || !message) {
+        document.getElementById('displayMessage').innerText = 'Please fill all required fields (Name, Email, and Message).';
+        return;
     }
-};
+
+    // Email format validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+        document.getElementById('displayMessage').innerText = 'Please enter a valid email address.';
+        return;
+    }
+
+    // Save data to localStorage
+    const contactData = { name, email, subject, message };
+    localStorage.setItem('contactData', JSON.stringify(contactData));
+
+    // Display the results
+    document.getElementById('displayMessage').innerText = 
+        `Name: ${name}\nEmail: ${email}\nSubject: ${subject || "No Subject"}\nMessage: ${message}`;
+    
+    // Optional: Write to Firebase
+    writeUserData(Date.now(), name, email); // User ID as timestamp
+});
