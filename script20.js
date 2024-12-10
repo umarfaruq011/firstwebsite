@@ -28,20 +28,10 @@ menuIcon.onclick = () => {
     menuIcon.classList.toggle('bx-x');
     navbar.classList.toggle('active');
 };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js";
 
-
- // Load stored data when the page loads
- window.onload = function () {
-    if (localStorage.getItem('contactData')) {
-        const contactData = JSON.parse(localStorage.getItem('contactData'));
-        document.getElementById('fullName').value = contactData.name || '';
-        document.getElementById('email').value = contactData.email || '';
-        document.getElementById('subject').value = contactData.subject || '';
-        document.getElementById('message').value = contactData.message || '';
-        document.getElementById('displayMessage').innerText = 
-            `Name: ${contactData.name}\nEmail: ${contactData.email}\nSubject: ${contactData.subject || "No Subject"}\nMessage: ${contactData.message}`;
-    }
-};
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCKi3owg3WD6FlApyftqLsl0LEadGYM7Yk",
   authDomain: "my-comment-d816f.firebaseapp.com",
@@ -56,6 +46,30 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+
+// Write data to Firebase
+function writeUserData(userId, name, email) {
+    set(ref(db, 'users/' + userId), {
+        username: name,
+        email: email
+    });
+}
+
+
+ // Load stored data when the page loads
+ window.onload = function () {
+    if (localStorage.getItem('contactData')) {
+        const contactData = JSON.parse(localStorage.getItem('contactData'));
+        document.getElementById('fullName').value = contactData.name || '';
+        document.getElementById('email').value = contactData.email || '';
+        document.getElementById('subject').value = contactData.subject || '';
+        document.getElementById('message').value = contactData.message || '';
+        document.getElementById('displayMessage').innerText = 
+            `Name: ${contactData.name}\nEmail: ${contactData.email}\nSubject: ${contactData.subject || "No Subject"}\nMessage: ${contactData.message}`;
+    }
+};
+
 
 // Save data and display it
 window.onclick = function (e) {
